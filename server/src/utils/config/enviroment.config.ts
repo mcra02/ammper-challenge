@@ -1,8 +1,10 @@
 import { EnviromentEnum } from '../models/enviroment.model';
+import * as bcrypt from 'bcryptjs';
 
 class Config {
 
-  constructor () {}
+  constructor () {
+  }
 
   public projectName: string = process.env.PROYECT_NAME || '';
 
@@ -28,7 +30,7 @@ class Config {
 
   public auth = {
     jwt: {
-      secret: 'DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.'
+      secret: bcrypt.genSaltSync( 10 )
     }
   };
 }
