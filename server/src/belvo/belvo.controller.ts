@@ -4,6 +4,7 @@ import { BelvoPagination } from './models/belvo.model';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { AuthJWT } from '../auth/decorators/auth.user.decorator';
 import { CurrentUser } from '../auth/decorators/current.user.decorator';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @Controller( 'belvo' )
 export class BelvoController {
@@ -26,5 +27,11 @@ export class BelvoController {
     @Query() query: any
   ): Promise<any> {
     return await this.belvoService.findTransactions({ link: user.belvoLink, ...query });
+  }
+
+  @OnEvent( 'link.registered' )
+  handleOrderCreatedEvent ( payload: any ) {
+    console.warn( 'GENERATED DATA: ', payload.length );
+    this.belvoService.generateTransactionsByLink( payload.belvoLink );
   }
 }

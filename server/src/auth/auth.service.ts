@@ -7,6 +7,7 @@ import { User } from '../users/models/user.model';
 import { Bcrypt } from '../utils/scripts/bcrypt.script';
 import { instanceToPlain } from 'class-transformer';
 import { BelvoService } from '../belvo/belvo.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,8 @@ export class AuthService {
   constructor (
     private usersService: UsersService,
     private jwtService: JwtService,
-    private belvoService: BelvoService
+    private belvoService: BelvoService,
+    private eventEmitter: EventEmitter2
   ) {
     this.bcrypt = new Bcrypt();
   }
@@ -47,10 +49,16 @@ export class AuthService {
     let belvoLink = '';
     try {
       belvoLink = await this.belvoService.registerLink({ username, password, ...rest });
+      this.eventEmitter.emit(
+        'link.registered',
+        {
+          belvoLink
+        }
+      );
     } catch ( error ) {
       throw new InternalServerErrorException( error );
     } finally {
-      await this.belvoService.generateTransactionsByLink( belvoLink );
+      // await this.belvoService.generateTransactionsByLink( belvoLink );
     }
 
     const createUser = await this.usersService.create({ username, password: data.password, fullname, belvoLink, metadata: rest });

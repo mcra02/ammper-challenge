@@ -65,7 +65,6 @@ export class BelvoService {
       'date_to': dateFrom.format( 'YYYY-MM-DD' ),
       'save_data': true
     });
-    console.warn( res.data );
     return res.data;
   }
 

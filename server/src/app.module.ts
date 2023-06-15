@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/models/user.model';
 import { AuthModule } from './auth/auth.module';
 import { BelvoModule } from './belvo/belvo.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { BelvoModule } from './belvo/belvo.module';
     UtilsModule,
     UsersModule,
     AuthModule,
-    BelvoModule
+    BelvoModule,
+    EventEmitterModule.forRoot()
   ],
   controllers: [ AppController ],
   providers: [ AppService ]
