@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { CONFIG } from '../utils/config/enviroment.config';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
+import { BelvoModule } from '../belvo/belvo.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { PassportModule } from '@nestjs/passport';
       global: true,
       secret: CONFIG.auth.jwt.secret,
       signOptions: { expiresIn: '2 days' }
-    })
+    }),
+    BelvoModule
   ],
   controllers: [ AuthController ],
   providers: [

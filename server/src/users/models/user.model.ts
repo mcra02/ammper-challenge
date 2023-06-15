@@ -6,7 +6,7 @@ export class User {
     nullable: false,
     length: 100
   })
-  email: string;
+  username: string;
 
   @Column( 'varchar', {
     nullable: false,
@@ -19,4 +19,13 @@ export class User {
     length: 300
   })
   fullname: string;
+
+  @Column( 'varchar', {
+    nullable: false,
+    length: 300
+  })
+  belvoLink: string;
+
+  @Column( 'jsonb' )
+  metadata: any;
 }

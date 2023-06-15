@@ -7,6 +7,7 @@ import { CONFIG } from './utils/config/enviroment.config';
 import { UsersModule } from './users/users.module';
 import { User } from './users/models/user.model';
 import { AuthModule } from './auth/auth.module';
+import { BelvoModule } from './belvo/belvo.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     UtilsModule,
     UsersModule,
-    AuthModule
+    AuthModule,
+    BelvoModule
   ],
   controllers: [ AppController ],
   providers: [ AppService ]

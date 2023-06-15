@@ -11,8 +11,8 @@ export class UsersService {
     private _usersRepository: Repository<User>
   ) {}
 
-  async findOne ( email: string ): Promise<User | undefined> {
-    return this._usersRepository.findOneBy({ email });
+  async findOne ( username: string ): Promise<User | undefined> {
+    return this._usersRepository.findOneBy({ username });
   }
 
   async create ( data: User ): Promise<User> {

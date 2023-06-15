@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserPayload {
   @ApiProperty()
-  email: string;
+  username: string;
 
   @ApiProperty()
   fullname: string;

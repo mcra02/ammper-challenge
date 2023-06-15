@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { SignInDTO, SignUpDTO } from './DTO/auth.dto';
 import { SessionPayload } from './models/auth.model';
@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/models/user.model';
 import { Bcrypt } from '../utils/scripts/bcrypt.script';
 import { instanceToPlain } from 'class-transformer';
+import { BelvoService } from '../belvo/belvo.service';
 
 @Injectable()
 export class AuthService {
@@ -14,13 +15,14 @@ export class AuthService {
 
   constructor (
     private usersService: UsersService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private belvoService: BelvoService
   ) {
     this.bcrypt = new Bcrypt();
   }
 
   async validateUserAuth ( payload: Partial<User> ): Promise<any> {
-    const user = await this.usersService.findOne( payload.email );
+    const user = await this.usersService.findOne( payload.username );
     if ( !user ) {
       throw new UnauthorizedException( 'auth.errors.authentication' );
     }
@@ -29,24 +31,34 @@ export class AuthService {
 
   async signUp ( data: SignUpDTO ): Promise<SessionPayload> {
     const {
-      email, password, passwordConfirmation
+      username, password, fullname, ...rest
     } = data;
 
-    if ( password !== passwordConfirmation ) throw new Error( 'password and passwordConfirmation don\'t match' );
+    // if ( password !== passwordConfirmation ) throw new Error( 'password and passwordConfirmation don\'t match' );
 
-    const user = await this.usersService.findOne( email );
+    const user = await this.usersService.findOne( username );
 
     if ( user ) throw new UnprocessableEntityException( 'Username is not available' );
 
-    delete data.passwordConfirmation;
+    // delete data.passwordConfirmation;
 
     data.password = await this.bcrypt.hashPassword( password );
-    const createUser = await this.usersService.create({ ...data });
+
+    let belvoLink = '';
+    try {
+      belvoLink = await this.belvoService.registerLink({ username, password, ...rest });
+    } catch ( error ) {
+      throw new InternalServerErrorException( error );
+    } finally {
+      await this.belvoService.generateTransactionsByLink( belvoLink );
+    }
+
+    const createUser = await this.usersService.create({ username, password: data.password, fullname, belvoLink, metadata: rest });
     return this.provideSession( createUser );
   }
 
   async signIn ( data: SignInDTO ): Promise<SessionPayload> {
-    const user = await this.usersService.findOne( data.email );
+    const user = await this.usersService.findOne( data.username );
     if ( !user ) throw new UnprocessableEntityException( 'User is not exists' );
     const passIsValid = await this.bcrypt.comparePasswrod( data.password, user.password );
     if ( !passIsValid ) throw new UnprocessableEntityException( 'The credentials provided are not valid!' );

@@ -30,7 +30,16 @@ class Config {
 
   public auth = {
     jwt: {
-      secret: bcrypt.genSaltSync( 10 )
+      // secret: bcrypt.genSaltSync( 10 )
+      secret: 'maicol'
+    }
+  };
+
+  public integrations = {
+    belvo: {
+      apiUrl: process.env.BELVO_API_URL || '',
+      secret: process.env.BELVO_API_SECRET_ID || '',
+      password: process.env.BELVO_API_SECRET_PASSWORD || ''
     }
   };
 }

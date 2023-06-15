@@ -51,9 +51,9 @@ export class AuthController {
     description: 'This can only be done by the logged in user.'
   })
   async me (
-    @CurrentUser( 'email' ) email: string
+    @CurrentUser( 'username' ) username: string
   ): Promise<SessionPayload> {
-    return this.authService.me( email );
+    return this.authService.me( username );
   }
 
 }
