@@ -30,8 +30,8 @@ class Config {
 
   public auth = {
     jwt: {
-      // secret: bcrypt.genSaltSync( 10 )
-      secret: 'maicol'
+      secret: bcrypt.genSaltSync( 10 )
+      // secret: 'maicol'
     }
   };
 
