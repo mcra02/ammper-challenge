@@ -1,0 +1,63 @@
+version: '3.7'
+
+services:
+  server:
+    container_name:  ${ENVIRON}_server
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+      target: ${ENVIRON}
+    user: $CURRENT_UID:$CURRENT_GID
+    env_file: .env
+    ports:
+      - 7001:80
+    volumes:
+      - ./server:/app
+      - ./server/node_modules:/app/node_modules
+    networks:
+      default:
+        aliases:
+          - server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.serverdev.rule=Host(`server.${DOMAIN}`)"
+      - "traefik.http.routers.serverdev.entrypoints=websecure"
+      - "traefik.http.routers.serverdev.tls.certresolver=myresolver"
+
+  client:
+    container_name:  ${ENVIRON}_client
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+      target: ${ENVIRON}
+    user: $CURRENT_UID:$CURRENT_GID
+    env_file: .env
+    ports:
+      - 7002:80
+    volumes:
+      - ./client:/app
+      - ./client/node_modules:/app/node_modules
+    networks:
+      default:
+        aliases:
+          - client
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.clientdev.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.clientdev.entrypoints=websecure"
+      - "traefik.http.routers.clientdev.tls.certresolver=myresolver"
+
+  postgresdb:
+    image: 'postgres'
+    container_name:  ${ENVIRON}_postgres
+    ports:
+      - 7050:5432
+    volumes:
+      - './.volumes/${ENVIRON}_postgres_data:/var/lib/postgresql/data'
+    env_file:
+      - .env
+
+networks:
+  default:
+    external: true
+    name: ammper
