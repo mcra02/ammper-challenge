@@ -21,6 +21,7 @@ RUN echo "[DEBUG]   Build development enviroment..."
 RUN echo "[DEBUG]   Copy files and folders from development enviroment..."
 ADD ./client .
 
+EXPOSE 7002
 EXPOSE 80
 
 RUN echo "[DEBUG]   Run project for development..."
