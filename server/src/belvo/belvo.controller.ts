@@ -31,7 +31,7 @@ export class BelvoController {
 
   @OnEvent( 'link.registered' )
   handleOrderCreatedEvent ( payload: any ) {
-    console.warn( 'GENERATED DATA: ', payload.length );
+    console.warn( 'GENERATED DATA: ', payload );
     this.belvoService.generateTransactionsByLink( payload.belvoLink );
   }
 }

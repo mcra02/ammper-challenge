@@ -49,6 +49,7 @@ export class AuthService {
     let belvoLink = '';
     try {
       belvoLink = await this.belvoService.registerLink({ username, password, ...rest });
+      console.warn( 'BEFORE GENERATED DATA: ', belvoLink );
       this.eventEmitter.emit(
         'link.registered',
         {
