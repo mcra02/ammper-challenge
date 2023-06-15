@@ -98,11 +98,11 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      // https: false,
+      https: false,
       port: 80,
       open: false, // opens browser window automatically
       hmr: {
-        // host: '0.0.0.0',
+        // host: '',
         port: 7002
       }
     },
