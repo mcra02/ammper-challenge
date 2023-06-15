@@ -11,11 +11,18 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
-          Quasar App
+        <q-toolbar-title class="text-capitalize">
+          {{ auth?.user?.fullname }}
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+          <q-btn
+            color="white"
+            text-color="black"
+            label="Cerrar Sesion"
+            @click="onLogout"
+          />
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -46,52 +53,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { defineComponent, onMounted, ref } from 'vue'
+import EssentialLink from 'components/layout/EssentialLink.vue'
+import { useRouter } from 'vue-router'
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: 'Perfil',
+    caption: 'Informacion de usuario',
+    icon: 'person',
+    link: 'perfil'
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+    title: 'Transacciones',
+    caption: 'Movimientos',
+    icon: 'query_stats',
+    link: 'transacciones'
   }
+
 ]
 
 export default defineComponent({
@@ -102,14 +81,29 @@ export default defineComponent({
   },
 
   setup () {
+    const router = useRouter()
+
     const leftDrawerOpen = ref(false)
+
+    const auth = ref<any>(null)
+
+    const onLogout = () => {
+      localStorage.removeItem('auth')
+      router.push({ name: 'login' })
+    }
+
+    onMounted(() => {
+      auth.value = JSON.parse(localStorage.getItem('auth') ?? '{}')
+    })
 
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      },
+      onLogout,
+      auth
     }
   }
 })

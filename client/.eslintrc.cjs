@@ -80,6 +80,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
 
     // The core 'import/named' rules
     // does not work with type definitions

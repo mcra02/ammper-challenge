@@ -3,7 +3,7 @@
     clickable
     tag="a"
     target="_blank"
-    :href="link"
+    @click="onClick(link)"
   >
     <q-item-section
       v-if="icon"
@@ -23,6 +23,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'EssentialLink',
@@ -45,6 +46,18 @@ export default defineComponent({
     icon: {
       type: String,
       default: ''
+    }
+  },
+
+  setup () {
+    const router = useRouter()
+
+    const onClick = (name: string) => {
+      router.push({ name })
+    }
+
+    return {
+      onClick
     }
   }
 })

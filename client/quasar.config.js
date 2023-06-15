@@ -30,7 +30,8 @@ module.exports = configure(function (/* ctx */) {
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
       'i18n',
-      'axios'
+      'axios',
+      'apexcharts'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
@@ -68,7 +69,9 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        BASE_URL: 'http://localhost:7001/api/v1'
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -96,7 +99,7 @@ module.exports = configure(function (/* ctx */) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
-      port: 80,
+      port: 8000,
       open: true // opens browser window automatically
     },
 
@@ -115,7 +118,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: ['Notify']
     },
 
     // animations: 'all', // --- includes all animations

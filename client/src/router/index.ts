@@ -32,5 +32,17 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
+  Router.beforeEach(async (to, from, next) => {
+    const auth = to.meta.requiresAuth
+    const user = JSON.parse(localStorage.getItem('auth') ?? '{}')
+    if (auth && !user.token) {
+      next({ name: 'login' })
+    }
+    if (!auth && user.token) {
+      next({ name: 'transacciones' })
+    }
+    next()
+  })
+
   return Router
 })
