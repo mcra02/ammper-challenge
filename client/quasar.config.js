@@ -103,6 +103,7 @@ module.exports = configure(function (/* ctx */) {
       open: false, // opens browser window automatically
       hmr: {
         // host: '',
+        protocol: 'ws',
         port: 7002
       }
     },
