@@ -11,15 +11,19 @@
     "dev": "quasar dev",
     "pwa:dev": "quasar dev -m pwa",
     "build": "quasar build",
-    "pwa:build": "quasar build -m pwa"
+    "pwa:build": "quasar build -m pwa",
+    "start": "node server.js"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "apexcharts": "^3.41.0",
     "axios": "^1.2.1",
+    "connect-history-api-fallback": "^2.0.0",
+    "express": "^4.18.2",
     "moment": "^2.29.4",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
+    "serve-static": "^1.15.0",
     "vue": "^3.0.0",
     "vue-composable": "^1.0.0-beta.24",
     "vue-i18n": "^9.2.2",

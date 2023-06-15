@@ -24,8 +24,10 @@ ADD ./client .
 EXPOSE 7002
 EXPOSE 80
 
+RUN yarn pwa:build
+
 RUN echo "[DEBUG]   Run project for development..."
-CMD [ "yarn", "pwa:dev" ]
+CMD [ "yarn", "start" ]
 
 FROM base as prod
 RUN echo "[DEBUG]   Build production enviroment..."
