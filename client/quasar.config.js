@@ -102,7 +102,7 @@ module.exports = configure(function (/* ctx */) {
       port: 80,
       open: false, // opens browser window automatically
       hmr: {
-        host: '0.0.0.0',
+        // host: '0.0.0.0',
         port: 7002
       }
     },
