@@ -43,7 +43,7 @@ services:
           - client
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.clientdev.rule=Host(`${ENVIRON}-client.${DOMAIN}`)"
+      - "traefik.http.routers.clientdev.rule=Host(`ammper.${DOMAIN}`)"
       - "traefik.http.routers.clientdev.entrypoints=websecure"
       - "traefik.http.routers.clientdev.tls.certresolver=myresolver"
 
