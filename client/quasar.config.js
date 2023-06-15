@@ -70,7 +70,7 @@ module.exports = configure(function (/* ctx */) {
       // publicPath: '/',
       // analyze: true,
       env: {
-        BASE_URL: 'https://maicolrodrigo.com/api/v1'
+        BASE_URL: 'https://dev-server.maicolrodrigo.com/api/v1'
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
